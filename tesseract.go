@@ -1,7 +1,7 @@
 package tesseract
 
-// #cgo LDFLAGS: -L /usr/local/lib -ltesseract
-// #include "tesseract/capi.h"
+// #cgo LDFLAGS: -L /usr/local/Cellar/tesseract/3.02.02_3/lib -ltesseract
+// #include "/usr/local/Cellar/tesseract/3.02.02_3/include/tesseract/capi.h"
 // #include <stdlib.h>
 import "C"
 

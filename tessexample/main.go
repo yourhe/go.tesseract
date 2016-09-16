@@ -7,8 +7,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/GeertJohan/go.leptonica"
-	"github.com/GeertJohan/go.tesseract"
+	"github.com/yourhe/go.tesseract"
+	"gopkg.in/GeertJohan/go.leptonica.v1"
 )
 
 func main() {
@@ -24,7 +24,7 @@ func main() {
 	if tessdata_prefix == "" {
 		tessdata_prefix = "/usr/local/share"
 	}
-	t, err := tesseract.NewTess(filepath.Join(tessdata_prefix, "tessdata"), "eng")
+	t, err := tesseract.NewTess(filepath.Join(tessdata_prefix, "tessdata"), "chi_sima")
 	if err != nil {
 		log.Fatalf("Error while initializing Tess: %s\n", err)
 	}
@@ -38,10 +38,10 @@ func main() {
 	defer pix.Close() // remember to cleanup
 
 	// set the page seg mode to autodetect
-	t.SetPageSegMode(tesseract.PSM_AUTO_OSD)
+	t.SetPageSegMode(tesseract.PSM_AUTO)
 
 	// setup a whitelist of all basic ascii
-	err = t.SetVariable("tessedit_char_whitelist", ` !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_abcdefghijklmnopqrstuvwxyz{|}~`+"`")
+	// err = t.SetVariable("tessedit_char_whitelist", ` !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_abcdefghijklmnopqrstuvwxyz{|}~`+"`")
 	if err != nil {
 		log.Fatalf("Failed to SetVariable: %s\n", err)
 	}
@@ -50,18 +50,19 @@ func main() {
 	t.SetImagePix(pix)
 
 	// retrieve text from the tesseract instance
-	fmt.Println(t.Text())
+	fmt.Println(t.HOCRText(0))
 
 	// // retrieve text from the tesseract instance
 	// fmt.Println(t.HOCRText(0))
 
 	// retrieve text from the tesseract instance
-	fmt.Println(t.BoxText(0))
+	// fmt.Println(t.BoxText(0))
 
 	// now select just the first two columns (if using FelixScan.jpg)
-	t.SetRectangle(30, 275, 1120, 1380)
+	t.SetRectangle(30, 300, 550, 550)
+	// t.SetRectangle(30, 275, 1120, 1380)
 	fmt.Println(t.Text())
-	fmt.Println(t.BoxText(0))
+	// fmt.Println(t.BoxText(0))
 
 	// // retrieve text from the tesseract instance
 	// fmt.Println(t.UNLVText())
